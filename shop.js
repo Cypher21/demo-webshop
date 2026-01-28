@@ -4,6 +4,26 @@ const PRODUCTS = {
   lemon: { name: "Lemon", emoji: "🍋" },
 };
 
+// Theme management
+function initTheme() {
+  const savedTheme = localStorage.getItem("theme");
+  if (savedTheme === "colorblind") {
+    document.body.classList.add("colorblind-mode");
+  }
+}
+
+function toggleTheme() {
+  const isColorblindMode = document.body.classList.toggle("colorblind-mode");
+  localStorage.setItem("theme", isColorblindMode ? "colorblind" : "normal");
+}
+
+// Initialize theme on page load
+if (document.readyState !== "loading") {
+  initTheme();
+} else {
+  document.addEventListener("DOMContentLoaded", initTheme);
+}
+
 function getBasket() {
   try {
     const basket = localStorage.getItem("basket");

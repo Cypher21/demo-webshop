@@ -18,6 +18,15 @@
           <span class="products-text"> View Products </span>
         </a>
         <nav role="navigation" aria-label="Main navigation">
+          <button
+            class="theme-toggle"
+            id="themeToggle"
+            aria-label="Toggle colorblind mode"
+            title="Toggle colorblind mode"
+          >
+            <span class="theme-toggle-icon">🌙</span>
+            <span>Colorblind Mode</span>
+          </button>
           <a
             href="basket.html"
             class="basket-link"
@@ -74,6 +83,7 @@
         renderBasket();
         renderSmoothieOption();
       };
+      document.getElementById("themeToggle").addEventListener("click", toggleTheme);
     </script>
   </body>
 </html>
