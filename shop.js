@@ -4,6 +4,26 @@ const PRODUCTS = {
   lemon: { name: "Lemon", emoji: "🍋" },
 };
 
+// Theme management
+function initTheme() {
+  const savedTheme = localStorage.getItem("theme");
+  if (savedTheme === "colorblind") {
+    document.body.classList.add("colorblind-mode");
+  }
+}
+
+function toggleTheme() {
+  const isColorblindMode = document.body.classList.toggle("colorblind-mode");
+  localStorage.setItem("theme", isColorblindMode ? "colorblind" : "normal");
+}
+
+// Initialize theme on page load
+if (document.readyState !== "loading") {
+  initTheme();
+} else {
+  document.addEventListener("DOMContentLoaded", initTheme);
+}
+
 function getBasket() {
   try {
     const basket = localStorage.getItem("basket");
@@ -40,11 +60,21 @@ function renderBasket() {
     if (smoothieContainerEmpty) smoothieContainerEmpty.innerHTML = "";
     return;
   }
+  // Group identical products and count quantities
+  const groupedBasket = {};
   basket.forEach((product) => {
+    if (groupedBasket[product]) {
+      groupedBasket[product]++;
+    } else {
+      groupedBasket[product] = 1;
+    }
+  });
+  // Render grouped items with quantities
+  Object.entries(groupedBasket).forEach(([product, quantity]) => {
     const item = PRODUCTS[product];
     if (item) {
       const li = document.createElement("li");
-      li.innerHTML = `<span class='basket-emoji'>${item.emoji}</span> <span>${item.name}</span>`;
+      li.innerHTML = `<span class='basket-emoji'>${item.emoji}</span> <span>${quantity}x ${item.name}</span>`;
       basketList.appendChild(li);
     }
   });
